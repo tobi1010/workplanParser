@@ -1,0 +1,6 @@
+{
+    "watch": ["src"],
+    "ext": "ts, json",
+    "ignore": ["node_modules", "dist"],
+    "exec": "tsc && node dist/index.js \"./data/Spielzeit 2023_24 (Stand 08.02.2024).pdf\""
+}
