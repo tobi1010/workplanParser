@@ -120,7 +120,7 @@ export default function processYearplan(data: string): Array<Call> {
 
     monthArr.forEach((month, idx) => {
         const yyyy = idx >= monthOffset ? yearVal - 1 : yearVal;
-        const mm = `${idx}`.padStart(2, '0');
+        const mm = `${idx + 1}`.padStart(2, '0');
 
         for (let day = 0; day < month.length; day = day + 2) {
             const dd = `${day / 2 + 1}`.padStart(2, '0');
@@ -129,11 +129,14 @@ export default function processYearplan(data: string): Array<Call> {
                 const title1 = month[day].substring(
                     month[day].indexOf(' ') + 1,
                 );
+                // console.log(`year: ${yyyy}, month: ${mm}, day: ${dd}`);
+                const start = new Date(`${yyyy}-${mm}-${dd}T10:00:00Z`);
+                const end = new Date(`${yyyy}-${mm}-${dd}T13:00:00Z`);
 
                 callsArr.push({
                     title: title1,
-                    start: new Date(`${yyyy}-${mm}-${dd}T10:00:00Z`),
-                    end: new Date(`${yyyy}-${mm}-${dd}T13:00:00Z`),
+                    start,
+                    end,
                     description: description,
                 });
             }
@@ -149,7 +152,7 @@ export default function processYearplan(data: string): Array<Call> {
                         ? '30'
                         : '00';
                 const end = new Date(`${yyyy}-${mm}-${dd}T19:${min}:00Z`);
-                end.setHours(end.getHours() + 3);
+                end.setUTCHours(end.getUTCHours() + 3);
 
                 callsArr.push({
                     title: title2,
@@ -161,6 +164,6 @@ export default function processYearplan(data: string): Array<Call> {
         }
     });
 
-    // callsArr.forEach((call) => console.log(call));
+    callsArr.forEach((call) => console.log(call));
     return callsArr;
 }

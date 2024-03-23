@@ -1,0 +1,7 @@
+"exec": "tsc && node dist/index.js \"./data/Spielzeit 2023_24 (Stand 08.02.2024).pdf\""
+"exec": "tsc && node dist/index.js \"./data/Monatsplan_Februar.pdf\""
+"exec": "tsc && node dist/index.js \"./data/Spielzeit 2023_24 (Stand 10.07.2023).docx\""
+"exec": "tsc && node dist/index.js \"./data/Wochenplan_24.pdf\""
+"exec": "tsc && node dist/index.js \"./data/Monatsplan April 2024.pdf\""
+"exec": "tsc && node dist/index.js \"./data/Monatsplan März 2024 - Stand 12.03.2024.pdf\""
+

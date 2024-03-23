@@ -45,25 +45,32 @@ export default function processMonthplan(data: string): Array<Call> {
     if (lastSegment) {
         daysArr.push(lastSegment);
     }
-
+    console.log(daysArr);
     const regexTime = /(\d{1,2}:\d{2})/g;
     const callsArr: Array<Call> = [];
     for (const day of daysArr) {
         const match = day.match(/\d{1,2}\s+/);
         const dayNum = match ? match[0].trim().padStart(2, '0') : '';
+        const monthStr = (parseInt(month) + 1).toString().padStart(2, '0');
         const parts = day.split(regexTime);
         parts.shift();
+        console.log(parts.length);
         for (let i = 0; i < parts.length; i += 2) {
-            const start = new Date(`${year}-${month}-${dayNum}T${parts[0]}`);
-            const end = new Date(`${year}-${month}-${dayNum}T${parts[0]}`);
+            const start = new Date(
+                `${year}-${monthStr}-${dayNum}T${parts[i]}:00Z`,
+            );
+            const end = new Date(
+                `${year}-${monthStr}-${dayNum}T${parts[i]}:00Z`,
+            );
             if (/ OA(\s+|\s*\d+)/g.test(parts[i + 1])) {
-                end.setHours(end.getHours() + 2);
-                end.setMinutes(end.getMinutes() + 30);
+                end.setUTCHours(end.getUTCHours() + 2);
+                end.setUTCMinutes(end.getUTCMinutes() + 30);
             } else if (parts[0].includes(' VBO')) {
-                end.setHours(end.getHours() + 4);
+                end.setUTCHours(end.getUTCHours() + 4);
             } else {
-                end.setHours(end.getHours() + 3);
+                end.setUTCHours(end.getUTCHours() + 3);
             }
+            console.log(`start: ${start} end: ${end}`);
             callsArr.push({
                 title: parts[i + 1].trim(),
                 start,
@@ -72,6 +79,6 @@ export default function processMonthplan(data: string): Array<Call> {
             });
         }
     }
-
+    callsArr.forEach((call) => console.log(call));
     return callsArr;
 }

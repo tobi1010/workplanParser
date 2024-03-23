@@ -42,6 +42,7 @@ async function main() {
         }
         case 'monthplan': {
             try {
+                console.log('monthplan');
                 const data = await pdf(dataBuffer);
                 calls = processMonthplan(data.text);
             } catch (e) {
@@ -70,7 +71,7 @@ async function main() {
             break;
         }
     }
-    // createIcs(calls, singleFiles, getFileNameNoExtensionNoPath(fileName));
+    createIcs(calls, singleFiles, getFileNameNoExtensionNoPath(fileName));
 }
 
 main();

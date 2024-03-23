@@ -1,4 +1,4 @@
-import { PlanType } from './types';
+import { PlanType, Months } from './types';
 
 export function logArray<T>(arr: Array<T>): void {
     arr.forEach((element) => {
@@ -93,4 +93,30 @@ export function pushConcat(
         }
     }
     return result;
+}
+export function replaceNthOccurrence(
+    string: string,
+    pattern: string,
+    n: number,
+    placeholder: string,
+): string {
+    let position = 0;
+    for (let i = 0; i < n; i++) {
+        position = string.indexOf(pattern, position + 1);
+    }
+    return (
+        string.substring(0, position) +
+        placeholder +
+        string.substring(position + pattern.length)
+    );
+}
+export function getMonthOffset(month: string): number {
+    let returnVal: number = -1;
+    Object.keys(Months).forEach((key) => {
+        if (key.startsWith(month)) {
+            returnVal = parseInt(Months[key as keyof typeof Months]);
+        }
+    });
+
+    return returnVal;
 }

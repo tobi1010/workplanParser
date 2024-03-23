@@ -50,17 +50,17 @@ export default function processWeekplan(data: string): Array<Call> {
                 .substring(0, firstSpace)
                 .trim()
                 .split(':');
-            startDate.setHours(parseInt(hoursMinutes[0], 10));
-            startDate.setMinutes(parseInt(hoursMinutes[1], 10));
+            startDate.setUTCHours(parseInt(hoursMinutes[0], 10));
+            startDate.setUTCMinutes(parseInt(hoursMinutes[1], 10));
             if (call.includes('OA')) {
-                endDate.setHours(startDate.getHours() + 2);
-                endDate.setMinutes(startDate.getMinutes() + 30);
+                endDate.setUTCHours(startDate.getUTCHours() + 2);
+                endDate.setUTCMinutes(startDate.getUTCMinutes() + 30);
             } else if (call.includes('VBO')) {
-                endDate.setHours(startDate.getHours() + 4);
-                endDate.setMinutes(startDate.getMinutes());
+                endDate.setUTCHours(startDate.getUTCHours() + 4);
+                endDate.setUTCMinutes(startDate.getUTCMinutes());
             } else {
-                endDate.setHours(startDate.getHours() + 3);
-                endDate.setMinutes(startDate.getMinutes());
+                endDate.setUTCHours(startDate.getUTCHours() + 3);
+                endDate.setUTCMinutes(startDate.getUTCMinutes());
             }
             callsArr.push({
                 title: call,
