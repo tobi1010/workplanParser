@@ -1,8 +1,5 @@
-export type PlanType =
-    | 'weekplan'
-    | 'monthplan'
-    | 'yearplanDocx'
-    | 'yearplanPdf';
+export type PlanType = 'weekplan' | 'monthplan' | 'yearplanDocx';
+// | 'yearplanPdf';
 
 export type Call = {
     title: string;

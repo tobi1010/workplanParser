@@ -42,6 +42,7 @@ function fixDelimiters(
 
 export default function processYearplanPdf(data: string): Array<Call> {
     const splitArr: string[] = data.split('\n');
+    // splitArr.forEach((el) => console.log(el));
     const splitIndices: Array<number> = [];
     const regexNum: RegExp = /^\d{1,2}/;
     const regexWeekday: RegExp = /^(mo|di|mi|do|fr|sa|so)/i;
@@ -75,7 +76,7 @@ export default function processYearplanPdf(data: string): Array<Call> {
         splitArr.slice(splitIndices[splitIndices.length - 1]).join(''),
     );
 
-    // joinedArr.forEach((el) => console.log(el));
+    joinedArr.forEach((el) => console.log(el));
     const fixedDaysArr: Array<string> = pushConcat(joinedArr, (curr, last) => {
         const matchCurr = regexNum.exec(curr.trim());
         const matchLast = regexNum.exec(last.trim());
@@ -220,35 +221,119 @@ export default function processYearplanPdf(data: string): Array<Call> {
 
     // eveningCallArr.forEach((el) => console.log(el));
     const regNumDays = isLeapYear ? 29 : 28;
-    const callsArray: Array<Call> = [];
+    const callsArr: Array<Call> = [];
 
     for (let i = 0; i < regNumDays; i++) {
         for (let j = 0; j < morningCallArr[i].length; j++) {
-            console.log('--------------------');
-            console.log(`${i + 1}.${((j + monthOffset) % 12) + 1}.${year}  `);
-            console.log(morningCallArr[i][j]);
-            console.log(eveningCallArr[i][j]);
-            console.log('--------------------');
-
-            // 29(if leap), 30, 31 need special treatment
+            // console.log('--------------------');
+            // console.log(`${i + 1}.${((j + monthOffset) % 12) + 1}.${year}  `);
+            // console.log(morningCallArr[i][j]);
+            // console.log(eveningCallArr[i][j]);
+            // console.log('--------------------');
+            const title1 = morningCallArr[i][j].substring(
+                morningCallArr[i][j].indexOf(' '),
+            );
+            const mm =
+                ((j + monthOffset) % 12) + 1 < 10
+                    ? `0${((j + monthOffset) % 12) + 1}`
+                    : ((j + monthOffset) % 12) + 1;
+            const dd = i + 1 < 10 ? `0${i + 1}` : i + 1;
+            if (title1.trim() !== '') {
+                // console.log(`mm: ${mm} dd: ${dd} title1: ${title1}`);
+                const call1: Call = {
+                    title: title1,
+                    start: new Date(`${year}-${mm}-${dd}T10:00:00Z`),
+                    end: new Date(`${year}-${mm}-${dd}T13:00:00Z`),
+                    description: 'Jahresplan',
+                };
+                // console.log(call1);
+                callsArr.push(call1);
+            }
+            const title2 = eveningCallArr[i][j].substring(
+                eveningCallArr[i][j].indexOf(' '),
+            );
+            // console.log(`${eveningCallArr[i][j]}=>${title2}`);
+            if (title2.trim() !== '') {
+                // console.log(`mm: ${mm} dd: ${dd} title2: ${title2}`);
+                const call2: Call = {
+                    title: title2,
+                    start: new Date(`${year}-${mm}-${i + 1}T19:00:00Z`),
+                    end: new Date(`${year}-${mm}-${i + 1}T22:00:00Z`),
+                    description: 'Jahresplan',
+                };
+                // console.log(call2);
+                callsArr.push(call2);
+            }
         }
     }
     let monthZeroBased = monthOffset;
     if (!isLeapYear) {
         for (let i = 0; i < 11; i++) {
-            console.log(morningCallArr[28][i]);
-            console.log(eveningCallArr[28][i]);
+            // console.log(morningCallArr[28][i]);
+            // console.log(eveningCallArr[28][i]);
+            const title1 = morningCallArr[28][i].substring(
+                morningCallArr[28][i].indexOf(' '),
+            );
+            const mm =
+                monthZeroBased % 12 < 10
+                    ? `0${monthZeroBased % 12}`
+                    : monthZeroBased % 12;
+            if (title1.trim() !== '') {
+                callsArr.push({
+                    title: title1,
+                    start: new Date(`${year}-${mm}-${29}T10:00:00Z`),
+                    end: new Date(`${year}-${mm}-${29}T13:00:00Z`),
+                    description: 'Jahresplan',
+                });
+            }
+            const title2 = eveningCallArr[28][i].substring(
+                eveningCallArr[28][i].indexOf(' '),
+            );
+            if (title2.trim() !== '') {
+                callsArr.push({
+                    title: title2,
+                    start: new Date(`${year}-${mm}-${29}T10:00:00Z`),
+                    end: new Date(`${year}-${mm}-${29}T13:00:00Z`),
+                    description: 'Jahresplan',
+                });
+            }
             monthZeroBased++;
             if (monthZeroBased % 12 === 1) {
                 monthZeroBased++;
             }
         }
     }
-    monthZeroBased = monthOffset;
+    monthZeroBased = monthOffset + 1;
     for (let i = 0; i < 11; i++) {
-        console.log(monthZeroBased % 12);
-        console.log(morningCallArr[29][i]);
-        console.log(eveningCallArr[29][i]);
+        // console.log(monthZeroBased % 12);
+        // console.log(morningCallArr[29][i]);
+        // console.log(eveningCallArr[29][i]);
+        const title1 = morningCallArr[29][i].substring(
+            morningCallArr[29][i].indexOf(' '),
+        );
+        const mm =
+            monthZeroBased % 12 < 10
+                ? `0${monthZeroBased % 12}`
+                : monthZeroBased % 12;
+        if (title1.trim() !== '') {
+            callsArr.push({
+                title: morningCallArr[29][i],
+                start: new Date(`${year}-${mm}-${30}T10:00:00Z`),
+                end: new Date(`${year}-${mm}-${30}T13:00:00Z`),
+                description: 'Jahresplan',
+            });
+        }
+        const title2 = eveningCallArr[29][i].substring(
+            eveningCallArr[29][i].indexOf(' '),
+        );
+        if (title2.trim() !== '') {
+            callsArr.push({
+                title: eveningCallArr[29][i],
+                start: new Date(`${year}-${mm}-${30}T19:00:00Z`),
+                end: new Date(`${year}-${mm}-${30}T22:00:00Z`),
+                description: 'Jahresplan',
+            });
+        }
         monthZeroBased++;
         if (monthZeroBased % 12 === 1) {
             monthZeroBased++;
@@ -259,9 +344,34 @@ export default function processYearplanPdf(data: string): Array<Call> {
     const startIdx = longMonthMap.indexOf(Math.ceil(monthOffset));
     for (let i = 0; i < 7; i++) {
         const mon = longMonthMap[(startIdx + i) % 7];
-        console.log(morningCallArr[30][i]);
-        console.log(eveningCallArr[30][i]);
+        const mm = mon + 1 < 10 ? `0${mon + 1}` : mon + 1;
+        // console.log(morningCallArr[30][i]);
+        // console.log(eveningCallArr[30][i]);
+        const title1 = morningCallArr[30][i].substring(
+            morningCallArr[30][i].indexOf(' '),
+        );
+        if (title1.trim() !== '') {
+            callsArr.push({
+                title: morningCallArr[30][i],
+                start: new Date(`${year}-${mm}-${31}T10:00:00Z`),
+                end: new Date(`${year}-${mm}-${31}T13:00:00Z`),
+                description: 'Jahresplan',
+            });
+        }
+        const title2 = eveningCallArr[30][i].substring(
+            eveningCallArr[30][i].indexOf(' '),
+        );
+        if (title2.trim() !== '') {
+            callsArr.push({
+                title: eveningCallArr[30][i],
+                start: new Date(`${year}-${mm}-${31}T19:00:00Z`),
+                end: new Date(`${year}-${mm}-${31}T22:00:00Z`),
+                description: 'Jahresplan',
+            });
+        }
     }
 
+    console.log(callsArr.length);
+    // callsArr.forEach((call) => console.log(call));
     return [];
 }

@@ -1,11 +1,5 @@
 import { PlanType, Months } from './types';
 
-export function logArray<T>(arr: Array<T>): void {
-    arr.forEach((element) => {
-        console.log(element);
-    });
-}
-
 export function getFileNameNoExtensionNoPath(fileName: string): string {
     return fileName.split('/').pop()?.split('.')[0] as string;
 }
@@ -14,7 +8,7 @@ export function getFileType(fileName: string): PlanType {
     const regexWeekplan = /.*wochenplan.*.pdf$/i;
     const regexMonthplan = /.*monatsplan.*.pdf$/i;
     const regexYearplanDocx = /.*spielzeit.*.docx$/i;
-    const regexYearplanPdf = /.*spielzeit.*.pdf$/i;
+    // const regexYearplanPdf = /.*spielzeit.*.pdf$/i;
     if (regexWeekplan.test(fileName)) {
         return 'weekplan';
     }
@@ -24,9 +18,9 @@ export function getFileType(fileName: string): PlanType {
     if (regexYearplanDocx.test(fileName)) {
         return 'yearplanDocx';
     }
-    if (regexYearplanPdf.test(fileName)) {
-        return 'yearplanPdf';
-    }
+    // if (regexYearplanPdf.test(fileName)) {
+    //     return 'yearplanPdf';
+    // }
     console.log('Invalid file type');
     process.exit(1);
 }

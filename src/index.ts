@@ -60,16 +60,16 @@ async function main() {
             }
             break;
         }
-        case 'yearplanPdf': {
-            console.log('YearplanPdf');
-            try {
-                const data = await pdf(dataBuffer);
-                calls = processYearplanPdf(data.text);
-            } catch (e) {
-                console.log(e);
-            }
-            break;
-        }
+        // case 'yearplanPdf': {
+        //     console.log('YearplanPdf');
+        //     try {
+        //         const data = await pdf(dataBuffer);
+        //         calls = processYearplanPdf(data.text);
+        //     } catch (e) {
+        //         console.log(e);
+        //     }
+        //     break;
+        // }
     }
     createIcs(calls, singleFiles, getFileNameNoExtensionNoPath(fileName));
 }

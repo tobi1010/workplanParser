@@ -164,6 +164,13 @@ export default function processYearplan(data: string): Array<Call> {
         }
     });
 
-    callsArr.forEach((call) => console.log(call));
+    // callsArr.forEach((call) => console.log(call));
+    // console.log(callsArr.length);
+    callsArr.forEach((call) => {
+        // if (!call.end) {
+        //     console.log(call);
+        // }
+        console.log(call.end);
+    });
     return callsArr;
 }
