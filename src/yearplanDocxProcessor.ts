@@ -2,7 +2,7 @@ import { Call, Weekdays, Months } from './types';
 
 export default function processYearplan(data: string): Array<Call> {
     const dataArr = data.split(/\n/g).filter((line) => line.trim() !== '');
-    dataArr.pop(); // remove last line
+    // dataArr.pop(); // remove last line
     const firstDayIdx = dataArr.findIndex((line) => line === '1');
     const header = dataArr.slice(0, firstDayIdx);
     const planData = dataArr.slice(firstDayIdx);
@@ -34,13 +34,13 @@ export default function processYearplan(data: string): Array<Call> {
             days[days.length - 1] += ` ${line}`;
         }
     });
+    // days.forEach((day) => console.log(day));
     days = days.map((day) => {
         if (day.endsWith(' f')) {
             return (day = day.substring(0, day.length - 2));
         }
         return day;
     });
-    // days.forEach((day) => console.log(day));
     const monthArr: Array<Array<string>> = Array.from({ length: 12 }, () => []);
 
     const dateIdcs: Array<number> = [];
@@ -113,6 +113,7 @@ export default function processYearplan(data: string): Array<Call> {
         );
         idx++;
     }
+    // console.log(monthArr);
     const callsArr: Array<Call> = [];
 
     const description = 'Vorschau - Uhrzeiten stimmen nicht!';
@@ -165,12 +166,13 @@ export default function processYearplan(data: string): Array<Call> {
     });
 
     // callsArr.forEach((call) => console.log(call));
+    // callsArr.forEach((call) => {
+    //     console.log(call);
+    //     if (!call.start || !call.end) {
+    //         console.log(call);
+    //         console.log(`ERROR: ${call}`);
+    //     }
+    // });
     // console.log(callsArr.length);
-    callsArr.forEach((call) => {
-        // if (!call.end) {
-        //     console.log(call);
-        // }
-        console.log(call.end);
-    });
     return callsArr;
 }

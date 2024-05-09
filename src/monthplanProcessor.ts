@@ -10,8 +10,13 @@ export default function processMonthplan(data: string): Array<Call> {
     const month: string = Months[monthString as keyof typeof Months];
     const year: string = linesArr[0].trim().split(' ')[1];
     linesArr = linesArr.slice(1);
-    // remove last two lines
-    linesArr = linesArr.slice(0, linesArr.length - 2);
+    // remove footer and blank lines at the end
+    while (
+        /\b\d{2}\.\d{2}\.\d{4}\b./.test(linesArr[linesArr.length - 1]) ||
+        linesArr[linesArr.length - 1].trim() === linesArr[linesArr.length - 1]
+    ) {
+        linesArr.pop();
+    }
     // join back together so it can be split into days
     const line = linesArr.join(' ');
     // construct regex for day and weekday, case insensitive and global
@@ -28,6 +33,7 @@ export default function processMonthplan(data: string): Array<Call> {
         // store index of match as split point
         splitIndices.push(matches.index);
     }
+    console.log(linesArr);
 
     // Splitting the line into an array of lines based on the split points
     const daysArr = [];
@@ -45,7 +51,7 @@ export default function processMonthplan(data: string): Array<Call> {
     if (lastSegment) {
         daysArr.push(lastSegment);
     }
-    console.log(daysArr);
+    // console.log(daysArr);
     const regexTime = /(\d{1,2}:\d{2})/g;
     const callsArr: Array<Call> = [];
     for (const day of daysArr) {
@@ -54,7 +60,7 @@ export default function processMonthplan(data: string): Array<Call> {
         const monthStr = (parseInt(month) + 1).toString().padStart(2, '0');
         const parts = day.split(regexTime);
         parts.shift();
-        console.log(parts.length);
+        // console.log(parts.length);
         for (let i = 0; i < parts.length; i += 2) {
             const start = new Date(
                 `${year}-${monthStr}-${dayNum}T${parts[i]}:00Z`,
@@ -70,7 +76,7 @@ export default function processMonthplan(data: string): Array<Call> {
             } else {
                 end.setUTCHours(end.getUTCHours() + 3);
             }
-            console.log(`start: ${start} end: ${end}`);
+            // console.log(`start: ${start} end: ${end}`);
             callsArr.push({
                 title: parts[i + 1].trim(),
                 start,
@@ -79,6 +85,6 @@ export default function processMonthplan(data: string): Array<Call> {
             });
         }
     }
-    callsArr.forEach((call) => console.log(call));
+    // callsArr.forEach((call) => console.log(call));
     return callsArr;
 }

@@ -40,21 +40,22 @@ async function main() {
             }
             break;
         }
-        case 'monthplan': {
-            try {
-                console.log('monthplan');
-                const data = await pdf(dataBuffer);
-                calls = processMonthplan(data.text);
-            } catch (e) {
-                console.log(e);
-            }
-            break;
-        }
         case 'yearplanDocx': {
             console.log('YearplanDocx');
             try {
                 const data = await mammoth.extractRawText({ path: fileName });
                 calls = processYearplanDocx(data.value);
+            } catch (e) {
+                console.log(e);
+            }
+            break;
+        }
+        default: {
+            //includes undefined at the moment
+            try {
+                console.log('monthplan');
+                const data = await pdf(dataBuffer);
+                calls = processMonthplan(data.text);
             } catch (e) {
                 console.log(e);
             }

@@ -7,6 +7,7 @@ export default function createIcs(
     singleFiles: boolean,
     fileName: string,
 ): void {
+    console.log('Creating ics files...');
     if (singleFiles) {
         const currentDirectory = process.cwd();
         fs.mkdirSync(`${currentDirectory}/ics`, { recursive: true });
@@ -64,6 +65,9 @@ export default function createIcs(
                 fs.writeFileSync(
                     `${currentDirectory}/ics/${fileName}.ics`,
                     value,
+                );
+                fs.writeFileSync(
+                    `~/DEV/workplanparser/test/testFiles/resObjFrom_${fileName}.txt`,
                 );
             }
         }

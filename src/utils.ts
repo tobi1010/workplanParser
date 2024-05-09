@@ -5,6 +5,7 @@ export function getFileNameNoExtensionNoPath(fileName: string): string {
 }
 
 export function getFileType(fileName: string): PlanType {
+    // console.log(fileName);
     const regexWeekplan = /.*wochenplan.*.pdf$/i;
     const regexMonthplan = /.*monatsplan.*.pdf$/i;
     const regexYearplanDocx = /.*spielzeit.*.docx$/i;
@@ -21,8 +22,8 @@ export function getFileType(fileName: string): PlanType {
     // if (regexYearplanPdf.test(fileName)) {
     //     return 'yearplanPdf';
     // }
-    console.log('Invalid file type');
-    process.exit(1);
+    // console.log('Invalid file type');
+    return undefined;
 }
 
 export function getMonthName(
@@ -89,14 +90,24 @@ export function pushConcat(
     return result;
 }
 export function replaceNthOccurrence(
+    // zero based
     string: string,
     pattern: string,
     n: number,
     placeholder: string,
 ): string {
     let position = 0;
-    for (let i = 0; i < n; i++) {
+    let i = 0;
+    while (i <= n && position !== -1) {
         position = string.indexOf(pattern, position + 1);
+        i++;
+    }
+    // for (let i = 0; i < n; i++) {
+    // position = string.indexOf(pattern, position + 1);
+    // }
+    console.log(`pos:${position},n:${n}`);
+    if (position === -1) {
+        return string;
     }
     return (
         string.substring(0, position) +
@@ -106,8 +117,11 @@ export function replaceNthOccurrence(
 }
 export function getMonthOffset(month: string): number {
     let returnVal: number = -1;
+    if (month.length < 3 || month.length > 9) {
+        return -1;
+    }
     Object.keys(Months).forEach((key) => {
-        if (key.startsWith(month)) {
+        if (key.startsWith(month.toLowerCase())) {
             returnVal = parseInt(Months[key as keyof typeof Months]);
         }
     });

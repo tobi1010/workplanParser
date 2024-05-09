@@ -1,4 +1,4 @@
-export type PlanType = 'weekplan' | 'monthplan' | 'yearplanDocx';
+export type PlanType = 'weekplan' | 'monthplan' | 'yearplanDocx' | undefined;
 // | 'yearplanPdf';
 
 export type Call = {
