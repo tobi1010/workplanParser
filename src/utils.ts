@@ -105,7 +105,7 @@ export function replaceNthOccurrence(
     // for (let i = 0; i < n; i++) {
     // position = string.indexOf(pattern, position + 1);
     // }
-    console.log(`pos:${position},n:${n}`);
+    // console.log(`pos:${position},n:${n}`);
     if (position === -1) {
         return string;
     }

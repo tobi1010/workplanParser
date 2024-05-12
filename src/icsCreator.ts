@@ -67,7 +67,8 @@ export default function createIcs(
                     value,
                 );
                 fs.writeFileSync(
-                    `~/DEV/workplanparser/test/testFiles/resObjFrom_${fileName}.txt`,
+                    `${currentDirectory}/testFiles/resObjFrom_${fileName}.json`,
+                    JSON.stringify(calls, null, 2),
                 );
             }
         }

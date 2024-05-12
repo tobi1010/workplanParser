@@ -43,7 +43,10 @@ async function main() {
         case 'yearplanDocx': {
             console.log('YearplanDocx');
             try {
-                const data = await mammoth.extractRawText({ path: fileName });
+                // const data = await mammoth.extractRawText({ path: fileName });
+                const data = await mammoth.extractRawText({
+                    buffer: dataBuffer,
+                });
                 calls = processYearplanDocx(data.value);
             } catch (e) {
                 console.log(e);
