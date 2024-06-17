@@ -1,6 +1,5 @@
 import pdf from 'pdf-parse';
 import * as fs from 'fs';
-import inquirer from 'inquirer';
 import mammoth from 'mammoth';
 import processWeekplan from './weekplanProcessor';
 import processMonthplan from './monthplanProcessor';
