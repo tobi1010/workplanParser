@@ -33,7 +33,7 @@ export default function processMonthplan(data: string): Array<Call> {
         // store index of match as split point
         splitIndices.push(matches.index);
     }
-    console.log(linesArr);
+    // console.log(linesArr);
 
     // Splitting the line into an array of lines based on the split points
     const daysArr = [];
@@ -53,7 +53,7 @@ export default function processMonthplan(data: string): Array<Call> {
     }
     // console.log(daysArr);
     const regexTime = /(\d{1,2}:\d{2})/g;
-    const callsArr: Array<Call> = [];
+    const callsArr: Call[] = [];
     for (const day of daysArr) {
         const match = day.match(/\d{1,2}\s+/);
         const dayNum = match ? match[0].trim().padStart(2, '0') : '';
@@ -77,12 +77,14 @@ export default function processMonthplan(data: string): Array<Call> {
                 end.setUTCHours(end.getUTCHours() + 3);
             }
             // console.log(`start: ${start} end: ${end}`);
-            callsArr.push({
-                title: parts[i + 1].trim(),
+            const call = new Call(
+                parts[i + 1].trim(),
                 start,
                 end,
-                description: 'Monatsplan',
-            });
+                'Monatsplan',
+                1,
+            );
+            callsArr.push(call);
         }
     }
     // callsArr.forEach((call) => console.log(call));

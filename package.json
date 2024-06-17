@@ -15,6 +15,7 @@
     "license": "MIT",
     "devDependencies": {
         "@jest/types": "^29.6.3",
+        "@types/inquirer": "^9.0.7",
         "@types/jest": "^29.5.12",
         "@typescript-eslint/eslint-plugin": "^6.21.0",
         "@typescript-eslint/parser": "^6.21.0",
@@ -30,6 +31,7 @@
         "@types/node": "^20.11.16",
         "@types/pdf-parse": "^1.1.4",
         "ics": "^3.7.2",
+        "inquirer": "^8.2.6",
         "mammoth": "^1.6.0",
         "pdf-parse": "^1.1.1"
     }

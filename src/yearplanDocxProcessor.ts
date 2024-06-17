@@ -114,7 +114,7 @@ export default function processYearplan(data: string): Array<Call> {
         idx++;
     }
     // console.log(monthArr);
-    const callsArr: Array<Call> = [];
+    const callsArr: Call[] = [];
 
     const description = 'Vorschau - Uhrzeiten stimmen nicht!';
     const unicode160 = String.fromCharCode(160);
@@ -134,12 +134,8 @@ export default function processYearplan(data: string): Array<Call> {
                 const start = new Date(`${yyyy}-${mm}-${dd}T10:00:00Z`);
                 const end = new Date(`${yyyy}-${mm}-${dd}T13:00:00Z`);
 
-                callsArr.push({
-                    title: title1,
-                    start,
-                    end,
-                    description: description,
-                });
+                const call = new Call(title1, start, end, description, 2);
+                callsArr.push(call);
             }
 
             if (month[day + 1].trim().includes(' ')) {
@@ -152,15 +148,12 @@ export default function processYearplan(data: string): Array<Call> {
                     title2.toLowerCase().includes(`vst.${unicode160}`)
                         ? '30'
                         : '00';
+                const start = new Date(`${yyyy}-${mm}-${dd}T19:${min}:00Z`);
                 const end = new Date(`${yyyy}-${mm}-${dd}T19:${min}:00Z`);
                 end.setUTCHours(end.getUTCHours() + 3);
 
-                callsArr.push({
-                    title: title2,
-                    start: new Date(`${yyyy}-${mm}-${dd}T19:${min}:00Z`),
-                    end: end,
-                    description: description,
-                });
+                const call = new Call(title2, start, end, description, 2);
+                callsArr.push(call);
             }
         }
     });

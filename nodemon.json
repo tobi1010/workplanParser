@@ -2,5 +2,6 @@
     "watch": ["src"],
     "ext": "ts, json",
     "ignore": ["node_modules", "dist"],
-    "exec": "tsc && node dist/index.js \"./data/Wochenplan_24.pdf\""
+    "stdin": false,
+    "exec": "tsc && node dist/main.js"
 }

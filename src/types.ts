@@ -1,12 +1,45 @@
-export type PlanType = 'weekplan' | 'monthplan' | 'yearplanDocx' | undefined;
-// | 'yearplanPdf';
+export const PlanTypes = ['weekplan', 'monthplan', 'yearplanDocx'] as const;
+export type Timeslots = 'morning' | 'evening';
+export type Priorities = 0 | 1 | 2;
+export type PlanType = (typeof PlanTypes)[number] | undefined;
 
-export type Call = {
-    title: string;
-    start: Date;
-    end: Date;
-    description: string;
-};
+// export type Call = {
+//     title: string;
+//     start: Date;
+//     end: Date;
+//     description: string;
+// };
+
+export class Call {
+    public creationTS: number;
+    public title: string;
+    public start: Date;
+    public end: Date;
+    public timeslot: Timeslots;
+    public description: string;
+    public priority: Priorities;
+    constructor(
+        title: string,
+        start: Date,
+        end: Date,
+        description: string,
+        priority: Priorities,
+    ) {
+        this.creationTS = Date.now();
+        if (title === '') {
+            throw new Error('Title must not be empty');
+        }
+        this.title = title;
+        if (start > end) {
+            throw new Error('Start must be before end');
+        }
+        this.start = start;
+        this.end = end;
+        this.timeslot = this.start.getHours() < 15 ? 'morning' : 'evening';
+        this.description = description;
+        this.priority = priority;
+    }
+}
 
 export const Months = {
     januar: '00',

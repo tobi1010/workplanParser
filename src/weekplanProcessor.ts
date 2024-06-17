@@ -1,7 +1,7 @@
 import { Call } from './types';
 
-export default function processWeekplan(data: string): Array<Call> {
-    const callsArr: Array<Call> = [];
+export default function processWeekplan(data: string): Call[] {
+    const callsArr: Call[] = [];
 
     const regexWekdays =
         /Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag/g;
@@ -45,29 +45,27 @@ export default function processWeekplan(data: string): Array<Call> {
         let i = 1;
         while (i < dayBlock.length && regexTime.test(dayBlock[i])) {
             const firstSpace = dayBlock[i].indexOf(' ');
-            const call = dayBlock[i].substring(firstSpace).trim();
+            const title = dayBlock[i].substring(firstSpace).trim();
             const hoursMinutes = dayBlock[1]
                 .substring(0, firstSpace)
                 .trim()
                 .split(':');
             startDate.setUTCHours(parseInt(hoursMinutes[0], 10));
             startDate.setUTCMinutes(parseInt(hoursMinutes[1], 10));
-            if (call.includes('OA')) {
+            if (title.includes('OA')) {
                 endDate.setUTCHours(startDate.getUTCHours() + 2);
                 endDate.setUTCMinutes(startDate.getUTCMinutes() + 30);
-            } else if (call.includes('VBO')) {
+            } else if (title.includes('VBO')) {
                 endDate.setUTCHours(startDate.getUTCHours() + 4);
                 endDate.setUTCMinutes(startDate.getUTCMinutes());
             } else {
                 endDate.setUTCHours(startDate.getUTCHours() + 3);
                 endDate.setUTCMinutes(startDate.getUTCMinutes());
             }
-            callsArr.push({
-                title: call,
-                start: startDate,
-                end: endDate,
-                description: 'Wochenplan',
-            });
+            const call = new Call(title, startDate, endDate, 'Wochenplan', 0);
+
+            callsArr.push(call);
+
             i++;
         }
     });
