@@ -154,6 +154,13 @@ export default function processYearplan(data: string): Array<Call> {
 
                 const call = new Call(title2, start, end, description, 2);
                 callsArr.push(call);
+
+                // callsArr.push({
+                //      title: title2,
+                //      start: start,
+                //      end: end,
+                //      description: description,
+                //  });
             }
         }
     });

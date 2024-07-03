@@ -240,12 +240,19 @@ export default function processYearplanPdf(data: string): Array<Call> {
             const dd = i + 1 < 10 ? `0${i + 1}` : i + 1;
             if (title1.trim() !== '') {
                 // console.log(`mm: ${mm} dd: ${dd} title1: ${title1}`);
-                const call1: Call = {
-                    title: title1,
-                    start: new Date(`${year}-${mm}-${dd}T10:00:00Z`),
-                    end: new Date(`${year}-${mm}-${dd}T13:00:00Z`),
-                    description: 'Jahresplan',
-                };
+                // const call1: Call = {
+                //     title: title1,
+                //     start: new Date(`${year}-${mm}-${dd}T10:00:00Z`),
+                //     end: new Date(`${year}-${mm}-${dd}T13:00:00Z`),
+                //     description: 'Jahresplan',
+                // };
+                const call1 = new Call(
+                    title1,
+                    new Date(`${year}-${mm}-${dd}T10:00:00Z`),
+                    new Date(`${year}-${mm}-${dd}T13:00:00Z`),
+                    'Jahresplan',
+                    2,
+                );
                 // console.log(call1);
                 callsArr.push(call1);
             }
@@ -255,12 +262,20 @@ export default function processYearplanPdf(data: string): Array<Call> {
             // console.log(`${eveningCallArr[i][j]}=>${title2}`);
             if (title2.trim() !== '') {
                 // console.log(`mm: ${mm} dd: ${dd} title2: ${title2}`);
-                const call2: Call = {
-                    title: title2,
-                    start: new Date(`${year}-${mm}-${i + 1}T19:00:00Z`),
-                    end: new Date(`${year}-${mm}-${i + 1}T22:00:00Z`),
-                    description: 'Jahresplan',
-                };
+                // const call2: Call = {
+                //     title: title2,
+                //     start: new Date(`${year}-${mm}-${i + 1}T19:00:00Z`),
+                //     end: new Date(`${year}-${mm}-${i + 1}T22:00:00Z`),
+                //     description: 'Jahresplan',
+                // };
+                const call2 = new Call(
+                    title2,
+                    new Date(`${year}-${mm}-${dd}T19:00:00Z`),
+                    new Date(`${year}-${mm}-${dd}T22:00:00Z`),
+                    'Jahresplan',
+                    2,
+                );
+
                 // console.log(call2);
                 callsArr.push(call2);
             }
@@ -279,23 +294,41 @@ export default function processYearplanPdf(data: string): Array<Call> {
                     ? `0${monthZeroBased % 12}`
                     : monthZeroBased % 12;
             if (title1.trim() !== '') {
-                callsArr.push({
-                    title: title1,
-                    start: new Date(`${year}-${mm}-${29}T10:00:00Z`),
-                    end: new Date(`${year}-${mm}-${29}T13:00:00Z`),
-                    description: 'Jahresplan',
-                });
+                // callsArr.push({
+                //     title: title1,
+                //     start: new Date(`${year}-${mm}-${29}T10:00:00Z`),
+                //     end: new Date(`${year}-${mm}-${29}T13:00:00Z`),
+                //     description: 'Jahresplan',
+                // });
+                callsArr.push(
+                    new Call(
+                        title1,
+                        new Date(`${year}-${mm}-${29}T10:00:00Z`),
+                        new Date(`${year}-${mm}-${29}T13:00:00Z`),
+                        'Jahresplan',
+                        2,
+                    ),
+                );
             }
             const title2 = eveningCallArr[28][i].substring(
                 eveningCallArr[28][i].indexOf(' '),
             );
             if (title2.trim() !== '') {
-                callsArr.push({
-                    title: title2,
-                    start: new Date(`${year}-${mm}-${29}T10:00:00Z`),
-                    end: new Date(`${year}-${mm}-${29}T13:00:00Z`),
-                    description: 'Jahresplan',
-                });
+                // callsArr.push({
+                //     title: title2,
+                //     start: new Date(`${year}-${mm}-${29}T10:00:00Z`),
+                //     end: new Date(`${year}-${mm}-${29}T13:00:00Z`),
+                //     description: 'Jahresplan',
+                // });
+                callsArr.push(
+                    new Call(
+                        title2,
+                        new Date(`${year}-${mm}-${29}T19:00:00Z`),
+                        new Date(`${year}-${mm}-${29}T22:00:00Z`),
+                        'Jahresplan',
+                        2,
+                    ),
+                );
             }
             monthZeroBased++;
             if (monthZeroBased % 12 === 1) {
@@ -316,23 +349,41 @@ export default function processYearplanPdf(data: string): Array<Call> {
                 ? `0${monthZeroBased % 12}`
                 : monthZeroBased % 12;
         if (title1.trim() !== '') {
-            callsArr.push({
-                title: morningCallArr[29][i],
-                start: new Date(`${year}-${mm}-${30}T10:00:00Z`),
-                end: new Date(`${year}-${mm}-${30}T13:00:00Z`),
-                description: 'Jahresplan',
-            });
+            // callsArr.push({
+            //     title: morningCallArr[29][i],
+            //     start: new Date(`${year}-${mm}-${30}T10:00:00Z`),
+            //     end: new Date(`${year}-${mm}-${30}T13:00:00Z`),
+            //     description: 'Jahresplan',
+            // });
+            callsArr.push(
+                new Call(
+                    title1,
+                    new Date(`${year}-${mm}-${30}T10:00:00Z`),
+                    new Date(`${year}-${mm}-${30}T13:00:00Z`),
+                    'Jahresplan',
+                    2,
+                ),
+            );
         }
         const title2 = eveningCallArr[29][i].substring(
             eveningCallArr[29][i].indexOf(' '),
         );
         if (title2.trim() !== '') {
-            callsArr.push({
-                title: eveningCallArr[29][i],
-                start: new Date(`${year}-${mm}-${30}T19:00:00Z`),
-                end: new Date(`${year}-${mm}-${30}T22:00:00Z`),
-                description: 'Jahresplan',
-            });
+            // callsArr.push({
+            //     title: eveningCallArr[29][i],
+            //     start: new Date(`${year}-${mm}-${30}T19:00:00Z`),
+            //     end: new Date(`${year}-${mm}-${30}T22:00:00Z`),
+            //     description: 'Jahresplan',
+            // });
+            callsArr.push(
+                new Call(
+                    title2,
+                    new Date(`${year}-${mm}-${30}T19:00:00Z`),
+                    new Date(`${year}-${mm}-${30}T22:00:00Z`),
+                    'Jahresplan',
+                    2,
+                ),
+            );
         }
         monthZeroBased++;
         if (monthZeroBased % 12 === 1) {
@@ -351,23 +402,41 @@ export default function processYearplanPdf(data: string): Array<Call> {
             morningCallArr[30][i].indexOf(' '),
         );
         if (title1.trim() !== '') {
-            callsArr.push({
-                title: morningCallArr[30][i],
-                start: new Date(`${year}-${mm}-${31}T10:00:00Z`),
-                end: new Date(`${year}-${mm}-${31}T13:00:00Z`),
-                description: 'Jahresplan',
-            });
+            // callsArr.push({
+            //     title: morningCallArr[30][i],
+            //     start: new Date(`${year}-${mm}-${31}T10:00:00Z`),
+            //     end: new Date(`${year}-${mm}-${31}T13:00:00Z`),
+            //     description: 'Jahresplan',
+            // });
+            callsArr.push(
+                new Call(
+                    title1,
+                    new Date(`${year}-${mm}-${31}T10:00:00Z`),
+                    new Date(`${year}-${mm}-${31}T13:00:00Z`),
+                    'Jahresplan',
+                    2,
+                ),
+            );
         }
         const title2 = eveningCallArr[30][i].substring(
             eveningCallArr[30][i].indexOf(' '),
         );
         if (title2.trim() !== '') {
-            callsArr.push({
-                title: eveningCallArr[30][i],
-                start: new Date(`${year}-${mm}-${31}T19:00:00Z`),
-                end: new Date(`${year}-${mm}-${31}T22:00:00Z`),
-                description: 'Jahresplan',
-            });
+            // callsArr.push({
+            //     title: eveningCallArr[30][i],
+            //     start: new Date(`${year}-${mm}-${31}T19:00:00Z`),
+            //     end: new Date(`${year}-${mm}-${31}T22:00:00Z`),
+            //     description: 'Jahresplan',
+            // });
+            callsArr.push(
+                new Call(
+                    title2,
+                    new Date(`${year}-${mm}-${31}T19:00:00Z`),
+                    new Date(`${year}-${mm}-${31}T22:00:00Z`),
+                    'Jahresplan',
+                    2,
+                ),
+            );
         }
     }
 
